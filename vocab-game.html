@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Trò chơi từ vựng</title>
+<style>
+:root{--bg:#f6f5f1;--card:#fff;--tx:#1d1d1b;--mut:#6b6a64;--ac:#2f6fed;--ok:#1e8e4e;--bad:#d03a3a;--bd:#e2e0d8;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#171716;--card:#232321;--tx:#f0efe9;--mut:#a3a29a;--ac:#6b9bff;--ok:#4cc27d;--bad:#ff7070;--bd:#3a3a36;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#171716;--card:#232321;--tx:#f0efe9;--mut:#a3a29a;--ac:#6b9bff;--ok:#4cc27d;--bad:#ff7070;--bd:#3a3a36;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh;display:flex;justify-content:center;padding:16px}
+.wrap{width:100%;max-width:520px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:24px;margin-top:8px}
+h1{font-size:22px;margin:0 0 8px}
+p{color:var(--mut);line-height:1.5;margin:6px 0}
+button{font:inherit;cursor:pointer;border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:10px;padding:10px 16px}
+button.pri{background:var(--ac);border-color:var(--ac);color:#fff;font-weight:600}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.top{display:flex;justify-content:space-between;align-items:center;font-size:14px;color:var(--mut)}
+.bar{height:6px;background:var(--bd);border-radius:4px;overflow:hidden;margin:8px 0 18px}
+.bar i{display:block;height:100%;background:var(--ac);width:100%;transition:width 1s linear}
+.bar i.low{background:var(--bad)}
+.meaning{font-size:26px;font-weight:700;margin:6px 0}
+.pos{display:inline-block;font-size:13px;padding:2px 10px;border-radius:99px;background:var(--bd);color:var(--mut)}
+input{width:100%;font:inherit;font-size:20px;padding:12px 14px;margin-top:18px;border-radius:10px;border:2px solid var(--bd);background:var(--bg);color:var(--tx)}
+input:focus{outline:none;border-color:var(--ac)}
+.fb{min-height:24px;margin-top:12px;font-weight:600}
+.ok{color:var(--ok)}.bad{color:var(--bad)}
+.tag{font-size:12px;padding:2px 8px;border-radius:6px;background:var(--ac);color:#fff;margin-left:6px}
+table{width:100%;border-collapse:collapse;margin-top:12px;font-size:15px}
+td,th{text-align:left;padding:8px 6px;border-bottom:1px solid var(--bd)}
+.big{font-size:40px;font-weight:800}
+</style>
+</head>
+<body>
+<div class="wrap"><div id="app"></div></div>
+<script>
+const W=[["authority","n","chính quyền"],["condition","n","tình trạng"],["couple","n","cặp đôi"],["facility","n","cơ sở vật chất"],["housing","n","nhà ở"],["immigration","n","sự nhập cư"],["infrastructure","n","cơ sở hạ tầng"],["leisure","n","sự giải trí, thư giãn"],["line","n","tuyến (tàu)"],["metro","n","tàu điện"],["policy","n","chính sách"],["proportion","n","tỷ lệ"],["resident","n","người dân"],["satisfaction","n","sự hài lòng"],["shortage","n","sự thiếu"],["skyscraper","n","toà nhà chọc trời"],["smog","n","khói bụi"],["space","n","không gian"],["statistics","n","số liệu thống kê"],["trade","n","buôn bán"],["unemployment","n","nạn thất nghiệp"],["cause","v","gây ra"],["chair","v","chủ trì"],["decrease","v","giảm, hạ xuống"],["expand","v","mở rộng (về diện tích)"],["expose","v","tiếp xúc"],["modernise","v","hiện đại hóa"],["seek","v","tìm kiếm"],["crowded","adj","đông đúc"],["Eastern","adj","phương Đông"],["equal","adj","bằng nhau"],["frequent","adj","thường xuyên"],["high-rise","adj","cao tầng"],["low-rise","adj","thấp tầng"],["overcrowded","adj","quá đông đúc"],["reliable","adj","đáng tin cậy"],["rural","adj","nông thôn"],["gradually","adv","dần dần"],["slightly","adv","một chút"],["steadily","adv","đều đặn"],["convenience store","np","cửa hàng tiện lợi"],["electric bus","adj-n","xe buýt điện"],["public park","adj-n","công viên công cộng"],["wet market","adj-n","chợ bán đồ tươi sống / chợ truyền thống"],["carbon emission","np","khí thải các bon"],["city dweller","np","người dân thành phố"],["community meeting","np","cuộc họp cộng đồng"],["cost of living","phrase","chi phí sinh hoạt"],["crime rate","np","tỉ lệ tội phạm"],["government official","np","quan chức chính phủ"],["house price","np","giá nhà"],["Old Quarter","adj-n","Phố cổ"],["rush hour","adj-n","giờ cao điểm"],["traffic jam","np","tắc đường"],["date back","v-adv","có từ (thời gian)"],["get lost","v-adj","bị lạc"],["get stuck","v-adj","bị mắc kẹt"],["go for a ride","phrase","đi xe"],["go up","v-adv","lên, tăng lên"],["settle in","v-prep","định cư ở"],["afford","v","có đủ tiền, có khả năng chi trả"],["affordable","adj","có thể chi trả"],["colonial","adj","thuộc địa"],["colony","n","thuộc địa"],["modernisation","n","sự hiện đại hoá"],["stability","n","sự ổn định"],["stable","adj","ổn định"],["urban","adj","thuộc về độ thị"],["urbanisation","n","đô thị hóa"],["urbanised","adj","đô thị hóa"],["concern about","phrase","quan ngại"],["pedestrian","n","người đi bộ"],["architecture","n","kiến trúc"]];
+const TIME=60;
+const app=document.getElementById('app');
+const norm=s=>s.toLowerCase().replace(/[-\s]+/g,' ').trim();
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+let S,timer;
+
+function home(){
+  clearInterval(timer);
+  app.innerHTML=`<div class="card"><h1>Trò chơi từ vựng</h1>
+  <p>Cho nghĩa tiếng Việt, gõ từ tiếng Anh tương ứng.</p>
+  <p>• Mỗi từ tối đa 60 giây (hết giờ tính là sai).<br>• Từ sai được làm lại <b>1 lần duy nhất</b> ở cuối.<br>• Tổng hợp từ sai khi kết thúc.</p>
+  <p>Chọn số từ:</p>
+  <div class="row">${[10,20,40,W.length].map(n=>`<button class="pri" onclick="start(${n})">${n===W.length?'Tất cả '+n:n+' từ'}</button>`).join('')}</div></div>`;
+}
+function start(n){
+  S={queue:shuffle(n),phase:1,i:0,wrong:[],final:[],fixed:[],total:n,ok:0};
+  show();
+}
+function shuffle(n){return shuf(W).slice(0,n)}
+function show(){
+  clearInterval(timer);
+  if(S.i>=S.queue.length){
+    if(S.phase===1&&S.wrong.length){S.phase=2;S.queue=shuf(S.wrong);S.i=0;return intro()}
+    return end();
+  }
+  const w=S.queue[S.i];let t=TIME;
+  app.innerHTML=`<div class="card">
+  <div class="top"><span>${S.phase===1?'Vòng 1':'Làm lại<span class="tag">1 lần</span>'} · ${S.i+1}/${S.queue.length}</span><span id="t">${t}s</span></div>
+  <div class="bar"><i id="b"></i></div>
+  <div class="meaning">${w[2]}</div><span class="pos">${w[1]}</span>
+  <input id="in" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Gõ từ tiếng Anh rồi nhấn Enter">
+  <div class="fb" id="fb"></div>
+  <div class="row"><button class="pri" id="go">Kiểm tra</button></div></div>`;
+  const inp=document.getElementById('in');inp.focus();
+  let locked=false;
+  const submit=(timeout)=>{
+    if(locked)return;locked=true;clearInterval(timer);
+    const good=!timeout&&norm(inp.value)===norm(w[0]);
+    const fb=document.getElementById('fb');
+    if(good){S.ok++;if(S.phase===2)S.fixed.push(w);fb.className='fb ok';fb.textContent='✓ Chính xác!'}
+    else if(S.phase===1){S.wrong.push(w);fb.className='fb bad';fb.textContent=(timeout?'Hết giờ! ':'Chưa đúng. ')+'Đáp án: '+w[0]+' (sẽ làm lại ở cuối)'}
+    else{S.final.push(w);fb.className='fb bad';fb.textContent=(timeout?'Hết giờ! ':'Sai. ')+'Đáp án: '+w[0]}
+    inp.disabled=true;document.getElementById('go').disabled=true;
+    setTimeout(()=>{S.i++;show()},good?700:2500);
+  };
+  document.getElementById('go').onclick=()=>submit(false);
+  inp.addEventListener('keydown',e=>{if(e.key==='Enter')submit(false)});
+  timer=setInterval(()=>{t--;document.getElementById('t').textContent=t+'s';const b=document.getElementById('b');b.style.width=(t/TIME*100)+'%';if(t<=10)b.className='low';if(t<=0)submit(true)},1000);
+  requestAnimationFrame(()=>{document.getElementById('b').style.width=(TIME-1)/TIME*100+'%'});
+}
+function intro(){
+  app.innerHTML=`<div class="card"><h1>Làm lại các từ sai</h1><p>Bạn có <b>${S.queue.length}</b> từ sai. Mỗi từ chỉ được làm lại 1 lần duy nhất.</p><div class="row"><button class="pri" onclick="show()">Bắt đầu</button></div></div>`;
+}
+function end(){
+  const got=S.total-S.final.length,pct=Math.round(got/S.total*100);
+  app.innerHTML=`<div class="card"><h1>Kết quả</h1>
+  <div class="big">${got}/${S.total} <span style="font-size:18px;color:var(--mut)">(${pct}%)</span></div>
+  <p>Đúng ngay lần đầu: ${S.total-S.wrong.length} · Sửa đúng khi làm lại: ${S.fixed.length} · Vẫn sai: ${S.final.length}</p>
+  ${S.wrong.length?`<h3>Tổng hợp từ sai (${S.wrong.length})</h3><table><tr><th>Nghĩa</th><th>Từ</th><th>Kết quả</th></tr>${S.wrong.map(w=>`<tr><td>${w[2]}</td><td><b>${w[0]}</b> <span style="color:var(--mut)">(${w[1]})</span></td><td class="${S.final.includes(w)?'bad':'ok'}">${S.final.includes(w)?'Vẫn sai':'Đã sửa'}</td></tr>`).join('')}</table>`:'<p class="ok"><b>Tuyệt vời! Bạn không sai từ nào.</b></p>'}
+  <div class="row"><button class="pri" onclick="home()">Chơi lại</button></div></div>`;
+}
+home();
+</script>
+</body>
+</html>
